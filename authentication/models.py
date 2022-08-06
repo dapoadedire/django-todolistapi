@@ -5,13 +5,12 @@ from helpers.models import TrackingModel
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from django.contrib.auth.validators import UnicodeUsernameValidator
-from django.contrib.auth.models import (PermissionsMixin, UserManager, AbstractBaseUser)
+from django.contrib.auth.models import PermissionsMixin, UserManager, AbstractBaseUser
+
 # Create your models here.
 
 
-
 class MyUserManager(UserManager):
-
     def _create_user(self, username, email, password, **extra_fields):
         """
         Create and save a user with the given username, email, and password.
@@ -50,9 +49,8 @@ class MyUserManager(UserManager):
         return self._create_user(username, email, password, **extra_fields)
 
 
+class User(AbstractBaseUser, PermissionsMixin, TrackingModel):
 
-class User(AbstractBaseUser, PermissionsMixin, TrackingModel): 
-    
     username_validator = UnicodeUsernameValidator()
 
     username = models.CharField(
@@ -67,7 +65,7 @@ class User(AbstractBaseUser, PermissionsMixin, TrackingModel):
             "unique": _("A user with that username already exists."),
         },
     )
-    email = models.EmailField(_("email address"), blank=False, unique= True)
+    email = models.EmailField(_("email address"), blank=False, unique=True)
     is_staff = models.BooleanField(
         _("staff status"),
         default=False,
@@ -82,12 +80,10 @@ class User(AbstractBaseUser, PermissionsMixin, TrackingModel):
         ),
     )
     date_joined = models.DateTimeField(_("date joined"), default=timezone.now)
-    email_verified =  models.BooleanField(
+    email_verified = models.BooleanField(
         _("email_verified"),
         default=False,
-        help_text=_(
-            "Designates whether this user's email is verified. "
-        ),
+        help_text=_("Designates whether this user's email is verified. "),
     )
     objects = MyUserManager()
 
@@ -95,22 +91,6 @@ class User(AbstractBaseUser, PermissionsMixin, TrackingModel):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]
 
-
     @property
     def token(self):
-        return ' '
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
+        return " "
