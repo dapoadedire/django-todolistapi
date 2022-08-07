@@ -1,5 +1,6 @@
 from rest_framework.test import APITestCase
 from authentication.models import User
+from authentication.serializers import RegisterSerializer, LoginSerializer
 
 
 class TestModel(APITestCase):

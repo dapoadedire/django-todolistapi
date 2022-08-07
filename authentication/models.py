@@ -1,16 +1,14 @@
 from django.db import models
-from django.apps import apps
-from django.contrib.auth.hashers import make_password
 from helpers.models import TrackingModel
-from django.utils.translation import gettext_lazy as _
-from django.utils import timezone
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.contrib.auth.models import PermissionsMixin, UserManager, AbstractBaseUser
+from django.utils.translation import gettext_lazy as _
+from django.utils import timezone
 import jwt
-from django.conf import settings
-from datetime import datetime
+from datetime import datetime, timedelta
 
-# Create your models here.
+
+from django.conf import settings
 
 
 class MyUserManager(UserManager):
@@ -20,18 +18,14 @@ class MyUserManager(UserManager):
         """
         if not username:
             raise ValueError("The given username must be set")
+
         if not email:
             raise ValueError("The given email must be set")
+
         email = self.normalize_email(email)
-        # Lookup the real model class from the global app registry so this
-        # manager method can be used in migrations. This is fine because
-        # managers are by definition working on the real model.
-        GlobalUserModel = apps.get_model(
-            self.model._meta.app_label, self.model._meta.object_name
-        )
-        username = GlobalUserModel.normalize_username(username)
+        username = self.model.normalize_username(username)
         user = self.model(username=username, email=email, **extra_fields)
-        user.password = make_password(password)
+        user.set_password(password)
         user.save(using=self._db)
         return user
 
@@ -53,6 +47,12 @@ class MyUserManager(UserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin, TrackingModel):
+    """
+    An abstract base class implementing a fully featured User model with
+    admin-compliant permissions.
+
+    Username and password are required. Other fields are optional.
+    """
 
     username_validator = UnicodeUsernameValidator()
 
@@ -86,7 +86,7 @@ class User(AbstractBaseUser, PermissionsMixin, TrackingModel):
     email_verified = models.BooleanField(
         _("email_verified"),
         default=False,
-        help_text=_("Designates whether this user's email is verified. "),
+        help_text=_("Designates whether this users email is verified. "),
     )
     objects = MyUserManager()
 
@@ -100,9 +100,10 @@ class User(AbstractBaseUser, PermissionsMixin, TrackingModel):
             {
                 "username": self.username,
                 "email": self.email,
-                "exp": datetime.utcnow() + datetime.timedelta(hours=15),
+                "exp": datetime.utcnow() + timedelta(hours=24),
             },
             settings.SECRET_KEY,
             algorithm="HS256",
         )
+
         return token
