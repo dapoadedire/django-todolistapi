@@ -7,5 +7,9 @@ class TrackingModel(models.Model):
 
     class Meta:
         abstract = True
-        ordering = "-created_at"
-        get_latest_by = "created_at"
+        ordering = [
+            "-created_at",
+        ]
+        get_latest_by = [
+            "created_at",
+        ]

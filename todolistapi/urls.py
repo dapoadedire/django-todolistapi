@@ -19,6 +19,7 @@ from django.urls import path, include
 urlpatterns = [
     path("non-hackable-admin/", admin.site.urls),
     path("api/auth/", include("authentication.urls")),
+    path("api/todos/", include("todos.urls")),
 ]
 
 # http://127.0.0.1:8000/api/auth/register
