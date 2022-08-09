@@ -30,7 +30,7 @@ SECRET_KEY = config(
 DEBUG = config("DEBUG", default=True, cast=bool)
 
 AUTH_USER_MODEL = "authentication.User"
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
