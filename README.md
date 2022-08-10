@@ -9,11 +9,14 @@ A todo list API to perform all the functions of a basic todo app
 - Register User
 - Login User
 - Create todos
-- Update todos
-- Delete todos
+- Login User
+- Create a todo
+- Update a todo
+- Delete a todo
+- Get all todos
+- Filter todos
 - Search todos
 - Order todos
-
 
 ## Tech Stack
 
