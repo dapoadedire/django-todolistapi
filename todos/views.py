@@ -6,8 +6,6 @@ from todos.serializers import TodoSerializer
 from rest_framework.permissions import IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
 
-# Create your views here.
-
 
 class TodosAPIView(ListCreateAPIView):
     serializer_class = TodoSerializer

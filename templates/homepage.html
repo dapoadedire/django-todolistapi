@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <title>Todo List API</title>
+</head>
+<body>
+    <div class="container">
+        <div class = "left">
+            <h1>Todo List API</h1>
+                <p>
+                    This is a simple API for a todo list.
+                </p>
+
+        </div>
+
+        <div class="right">
+        
+            <ul>
+                <li><a target="_blank" href="{% url 'schema-redoc' %}">View Documentation on Redoc</a></li>
+                <li><a href="{% url 'schema-swagger-ui' %}">View Documentation on SwaggerUI</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <p class="by">
+        Built by <a target="_blank" href="https://github.com/dapoadedire">Dapo Adedire</a>
+    </p>
+</body>
+</html>
